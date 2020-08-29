@@ -18,7 +18,19 @@ export default function CheckoutForm() {
       return;
     }
 
-    const result = await stripe.confirmCardPayment('{CLIENT_SECRET}', {
+    const fetch = require('node-fetch');
+
+    var res = null;
+    var json = null;
+    console.log("Trying to fetch");
+
+    fetch("http://localhost:4242/secret", {
+      method: "get", mode: "cors"
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
+/*
+    const result = await stripe.confirmCardPayment(res.client_secret, {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
@@ -39,7 +51,7 @@ export default function CheckoutForm() {
         // payment_intent.succeeded event that handles any business critical
         // post-payment actions.
       }
-    }
+    }*/
   };
 
   return (
