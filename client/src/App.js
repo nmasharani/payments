@@ -8,6 +8,8 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 
+import CheckoutForm from './CheckoutForm';
+/*
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -29,7 +31,7 @@ const CheckoutForm = () => {
     </form>
   );
 };
-
+*/
 const stripePromise = loadStripe('pk_test_51HHLuNIFqPLbJe7inVZiu7wKrwdpGMAYytePSQY4sTD0oqzIZP2XpZknqihkNXUMhPquTpXDwh6I0eUC2oN5OgjK00Zmo9jy7N');
 
 const App = () => (
