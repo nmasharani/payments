@@ -18,6 +18,9 @@ export default function CheckoutForm() {
       return;
     }
 
+    console.log("Card details");
+    console.log(elements.getElement(CardElement));
+
     const fetch = require('node-fetch');
 
     console.log("Trying to fetch");
@@ -38,17 +41,18 @@ export default function CheckoutForm() {
 
       if (result.error) {
         // Show error to your customer (e.g., insufficient funds)
+        console.log("No good, error:");
         console.log(result.error.message);
       } else {
         // The payment has been processed!
-        console.log(result);
         if (result.paymentIntent.status === 'succeeded') {
           // Show a success message to your customer
           // There's a risk of the customer closing the window before callback
           // execution. Set up a webhook or plugin to listen for the
           // payment_intent.succeeded event that handles any business critical
           // post-payment actions.
-          console.log("woohoo");
+          console.log("Success! Result:");
+          console.log(result);
         }
       }
     });
