@@ -36,24 +36,31 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, respo
 
   // Handle the event
   switch (event.type) {
+    // Payment intent succeeded
     case 'payment_intent.succeeded':
       const paymentIntent = event.data.object;
       logger.write('PaymentIntent was successful!\n');
       logger.write(`Event id: ${event.id}\n`);
       logger.write(`Payment Intent id: ${paymentIntent.id}\n`);
       break;
+
+    // Payment method attached to a customer
     case 'payment_method.attached':
       const paymentMethod = event.data.object;
       logger.write('PaymentMethod was attached to a Customer!\n');
       logger.write(`Event id: ${event.id}\n`);
       logger.write(`Payment Method id: ${paymentMethod.id}\n`);
       break;
+
+    // Charge succeeded
     case 'charge.succeeded':
       const charge = event.data.object;
       logger.write('Charge was successful!\n');
       logger.write(`Event id: ${event.id}\n`);
       logger.write(`charge id: ${charge.id}\n`);
       break;
+
+    // Payment intent created
     case 'payment_intent.created':
       const newIntent = event.data.object;
       logger.write('Payment intent was created!\n');
