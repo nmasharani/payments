@@ -10,6 +10,10 @@ const stripe = require('stripe')('sk_test_51HHLuNIFqPLbJe7iZICK0Q1WRdLQvzMBryxJa
 app.use(express.static("."));
 app.use(express.json());
 app.use(cors())
+const fs = require('fs')
+const logger = fs.createWriteStream('log.txt', {
+  flags: 'a' // 'a' means appending (old data will be preserved)
+})
 
 app.get('/secret', async (req, res) => {
   const intent = await stripe.paymentIntents.create({
@@ -22,34 +26,36 @@ app.get('/secret', async (req, res) => {
 });
 
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
-  console.log("#######################################################@@@@@");
   console.log("testing webhook");
-  //console.log("request: ");
-  //console.log(request);
   let event;
 
   try {
-    console.log("OK WE'RE IN THE TRY STATEMENT NOW");
-    console.log("body: ");
-    console.log(request.body);
-    event = JSON.parse(request.body);
+    console.log("try");
+    event = request.body;
   } catch (err) {
-    console.log("OK WE'RE IN THE CATCH STATEMENT NOW");
+    console.log("error caught");
     response.status(400).send(`Webhook Error: ${err.message}`);
   }
-
-  console.log("event: ");
-  console.log(event);
 
   // Handle the event
   switch (event.type) {
     case 'payment_intent.succeeded':
       const paymentIntent = event.data.object;
       console.log('PaymentIntent was successful!');
+      logger.write('PaymentIntent was successful!\n');
       break;
     case 'payment_method.attached':
       const paymentMethod = event.data.object;
       console.log('PaymentMethod was attached to a Customer!');
+      logger.write('PaymentMethod was attached to a Customer!\n');
+      break;
+    case 'charge.succeeded':
+      console.log('Charge was successful!');
+      logger.write('Charge was successful!\n');
+      break;
+    case 'payment_intent.created':
+      console.log('Payment intent was created!');
+      logger.write('Payment intent was created!\n');
       break;
     // ... handle other event types TODO
     default:
