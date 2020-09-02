@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import logo from './hotdog-dog.png';
 import {loadStripe} from '@stripe/stripe-js';
 import {
   CardElement,
