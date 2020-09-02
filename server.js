@@ -5,14 +5,16 @@ const { resolve } = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const stripe = require('stripe')('sk_test_51HHLuNIFqPLbJe7iZICK0Q1WRdLQvzMBryxJaQPNlAZmsZD4TE7FZPyCG12vpCxcNGZXF7tnanjisqhNNkK2Rf8600zDlPg1Ss');
+// REPLACE THIS TEST SECRET KEY WITH YOUR OWN SECRET KEY
+const TEST_SECRET_KEY = "sk_test_51HHLuNIFqPLbJe7iZICK0Q1WRdLQvzMBryxJaQPNlAZmsZD4TE7FZPyCG12vpCxcNGZXF7tnanjisqhNNkK2Rf8600zDlPg1Ss";
+const stripe = require('stripe')(TEST_SECRET_KEY);
 
 app.use(express.static("."));
 app.use(express.json());
 app.use(cors())
 const fs = require('fs')
 const logger = fs.createWriteStream('log.txt', {
-  flags: 'a' // 'a' means appending (old data will be preserved)
+  flags: 'a'
 })
 
 app.get('/secret', async (req, res) => {
@@ -67,7 +69,8 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, respo
       logger.write(`Event id: ${event.id}\n`);
       logger.write(`Payment Intent id: ${newIntent.id}\n`);
       break;
-    // ... handle other event types TODO
+
+    // If it's not a successful payment.
     default:
       // Unexpected event type
       return response.status(400).end();
