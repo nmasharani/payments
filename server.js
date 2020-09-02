@@ -26,14 +26,11 @@ app.get('/secret', async (req, res) => {
 });
 
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
-  console.log("testing webhook");
   let event;
 
   try {
-    console.log("try");
     event = request.body;
   } catch (err) {
-    console.log("error caught");
     response.status(400).send(`Webhook Error: ${err.message}`);
   }
 
@@ -41,21 +38,27 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, respo
   switch (event.type) {
     case 'payment_intent.succeeded':
       const paymentIntent = event.data.object;
-      console.log('PaymentIntent was successful!');
       logger.write('PaymentIntent was successful!\n');
+      logger.write(`Event id: ${event.id}\n`);
+      logger.write(`Payment Intent id: ${paymentIntent.id}\n`);
       break;
     case 'payment_method.attached':
       const paymentMethod = event.data.object;
-      console.log('PaymentMethod was attached to a Customer!');
       logger.write('PaymentMethod was attached to a Customer!\n');
+      logger.write(`Event id: ${event.id}\n`);
+      logger.write(`Payment Method id: ${paymentMethod.id}\n`);
       break;
     case 'charge.succeeded':
-      console.log('Charge was successful!');
+      const charge = event.data.object;
       logger.write('Charge was successful!\n');
+      logger.write(`Event id: ${event.id}\n`);
+      logger.write(`charge id: ${charge.id}\n`);
       break;
     case 'payment_intent.created':
-      console.log('Payment intent was created!');
+      const newIntent = event.data.object;
       logger.write('Payment intent was created!\n');
+      logger.write(`Event id: ${event.id}\n`);
+      logger.write(`Payment Intent id: ${newIntent.id}\n`);
       break;
     // ... handle other event types TODO
     default:
