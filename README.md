@@ -56,16 +56,16 @@ Make sure to save App.js when you're done!
 
 # Running the server
 
-To run the node.js server, you simply have to run "npm start" from the payments/
-directory
+First, you'll have to install Node.js. If you don't have Node.js installed, run
+>> $ brew install node
 
->> $ npm start
+To run the node.js server, you simply have to run "node server.js" from the
+payments/directory
+
+>> $ node server.js
 
 When you do, you should see something like:
 
-> payments@1.0.0 start /path/to/payments
-> node server.js
->
 > Node server listening on port 4242!
 
 When you see that, you know you've succeeded!
@@ -73,9 +73,11 @@ When you see that, you know you've succeeded!
 # Running the client
 
 In a separate terminal tab / window, from the payments directory, cd to client
-directory, then start the client the same way:
+directory, then install the needed modules with npm install and start the client
+using npm start:
 
 >> $ cd client
+>> $ npm install
 >> $ npm start
 
 When you do, you should see something like:
@@ -128,4 +130,4 @@ Then, follow the instructions here to test the webhook using the Stripe CLI:
 https://stripe.com/docs/payments/handling-payment-events#use-cli
 
 You should see the event id and additional data for successful payments written
-to the log.txt file. To check, open the log.txt file. 
+to the log.txt file. To check, open the log.txt file.
